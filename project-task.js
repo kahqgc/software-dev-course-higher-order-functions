@@ -43,7 +43,11 @@ Step-by-Step:
 2. Use the `filter()` method to apply the callback to the array.
 3. Return the filtered result.
 */
-
+function filterProducts(product) {
+  let isInStock = products.filter(product => product.inStock === true);
+  return isInStock;
+}
+console.log("What's in Stock: ", filterProducts());
 
 /*
 🔹 Task 2: Transform Product Names
@@ -55,7 +59,12 @@ Step-by-Step:
 2. Extract and transform the `name` property to uppercase.
 3. Store the result in a new variable.
 */
+function productsUpperCase(product) {
+  let isUpperCase = products.map(product => product.name.toUpperCase());
+  return isUpperCase;
+}
 
+console.log("Upper Case Names: ", productsUpperCase());
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -70,6 +79,11 @@ Step-by-Step:
 3. Use this returned function inside a `map()` call to apply discounts to all products.
 */
 
+function applyDiscount(product) {
+  let discountPrice = products.map(product => product.price - (product.price * 0.25));
+  return discountPrice;
+}
+console.log(" 25% discounted prices: ", applyDiscount());
 
 /*
 🔹 Task 4: Calculate Total Inventory Value
@@ -81,7 +95,23 @@ Step-by-Step:
 2. Add only the prices of products where `inStock` is true.
 3. Store the total in a new variable.
 */
+function totalIsInStock(accumulator, product) {
+  let inStockProducts = filterProducts();
+  let total = inStockProducts.reduce((accumulator, product) => accumulator + product.price,0);
+  return total
+  };
+console.log("Total value in stock: ", totalIsInStock());
+/* OTHER OPTION: let totalPriceIsInStock = products.filter(product => product.inStock === true).reduce((accumulator, product) => accumulator+product.price, 0);
+return totalPriceIsInStock;*/
 
+/* why did I need an initial value? Because if I don't specifiy where it starts, it starts at the first element
+which is the entire first object. I need to start at 0 so I can make sure only numbers are being added, not objects.
+Source MDN: "To sum up the values contained in an array of objects, you must supply an initialValue, so that each item passes through your function."
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+If I don't add the initial value, it results in this: [object Object]800300, basically adding the first object to the 
+other two objects that have inStock:true and also concatenating them.
+I'm thinking that every time I use .reduce to formulate a math problem, I should start at 0 expecially when objects are
+already involved.
 
 // ============================================
 // 🧪 Console Test Your Work
@@ -90,4 +120,4 @@ Step-by-Step:
 // console.log("Filtered products:", ...);
 // console.log("Uppercased names:", ...);
 // console.log("Discounted products:", ...);
-// console.log("Total value in stock:", ...);
+// console.log("Total value in stock:", ...);*/
