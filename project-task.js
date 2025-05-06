@@ -41,11 +41,18 @@ Example: filter by availability or price threshold.
 Step-by-Step:
 1. Define the `filterProducts` function with appropriate parameters.
 2. Use the `filter()` method to apply the callback to the array.
-3. Return the filtered result.
-*/
+3. Return the filtered result.*/
+
+//reworked based on answers
+function productsInStockFiltered(product, callback){
+  return product.filter(callback)
+}
+let inStock = productsInStockFiltered(products, (product) => product.inStock);
+console.log(inStock)
+
+//original
 function filterProducts(product) {
-  let isInStock = products.filter(product => product.inStock === true);
-  return isInStock;
+  return products.filter(product => product.inStock);
 }
 console.log("What's in Stock: ", filterProducts());
 
@@ -60,11 +67,11 @@ Step-by-Step:
 3. Store the result in a new variable.
 */
 function productsUpperCase(product) {
-  let isUpperCase = products.map(product => product.name.toUpperCase());
-  return isUpperCase;
+  return products.map(product => product.name.toUpperCase());
 }
 
-console.log("Upper Case Names: ", productsUpperCase());
+let upperCaseOnly = productsUpperCase();
+console.log("Upper Case Names: ", upperCaseOnly);
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -78,7 +85,18 @@ Step-by-Step:
 2. Return a new function that takes a product object.
 3. Use this returned function inside a `map()` call to apply discounts to all products.
 */
+//OPTION 1
+function appliesDiscount(product, discountPercentFn){
+  let result = [];
+  for (let product of products){
+    result.push(discountPercentFn(product));}
+  return result;
+};
 
+let discountApplied = appliesDiscount(products, (product) => product.price - (product.price * 0.25))
+console.log("25% DISCOUNTED PRICES: ", discountApplied)
+
+//OPTION 2
 function applyDiscount(product) {
   let discountPrice = products.map(product => product.price - (product.price * 0.25));
   return discountPrice;
@@ -95,14 +113,16 @@ Step-by-Step:
 2. Add only the prices of products where `inStock` is true.
 3. Store the total in a new variable.
 */
+//OPTION 1
 function totalIsInStock(accumulator, product) {
   let inStockProducts = filterProducts();
   let total = inStockProducts.reduce((accumulator, product) => accumulator + product.price,0);
   return total
   };
 console.log("Total value in stock: ", totalIsInStock());
-/* OTHER OPTION: let totalPriceIsInStock = products.filter(product => product.inStock === true).reduce((accumulator, product) => accumulator+product.price, 0);
-return totalPriceIsInStock;*/
+// OPTION 2 
+let totalPriceIsInStock = products.filter(product => product.inStock).reduce((accumulator, product) => accumulator+product.price, 0);
+console.log("Total value in stock", totalPriceIsInStock);
 
 /* why did I need an initial value? Because if I don't specifiy where it starts, it starts at the first element
 which is the entire first object. I need to start at 0 so I can make sure only numbers are being added, not objects.
